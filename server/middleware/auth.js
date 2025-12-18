@@ -35,7 +35,7 @@ export const protectRoute = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId).select("password");
+        const user = await User.findById(decoded.userId).select("-password"); // without that dash this returns ONLY the password field, not the rest of the user.
 
         if (!user) {
             return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -46,6 +46,8 @@ export const protectRoute = async (req, res, next) => {
 
     } catch (error) {
         console.error("Auth middleware error:", error);
-        return res.status(500).json({ success: false, message: "Server error" });
+        return res.status(500).json({ success: false, message: "Invalid token" });
     }
 };
+
+export default protectRoute; // Exporting the middleware for use in other files this line added at 01:00 pm 18th December 2025

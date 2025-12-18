@@ -383,6 +383,22 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logged out successfully");
   };
 
+  /* ---------------- UPDATE PROFILE ---------------- */
+  const updateProfile = async (profileData) => {
+    try {
+      const res = await axios.put("/api/auth/update-profile", profileData);
+      const data = res.data;
+      if (data.success) {
+        setAuthUser(data.user);
+        toast.success(data.message || "Profile updated successfully");
+      } else {
+        toast.error(data.message || "Profile update failed");
+      }
+    } catch (error) {
+      toast.error(error.message || "Profile update failed");
+    }
+  };
+
   /* ---------------- SOCKET ---------------- */
   const connectSocket = (user) => {
     if (!user || socket?.connected) return;
@@ -406,6 +422,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         onlineUsers,
+        updateProfile,
       }}
     >
       {children}
