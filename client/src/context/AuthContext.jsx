@@ -317,13 +317,36 @@ export const AuthProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
 
   /* ---------------- ATTACH TOKEN TO REQUESTS ---------------- */
-  axios.interceptors.request.use((config) => {
+  // axios.interceptors.request.use((config) => {
+  //   const storedToken = localStorage.getItem("authToken");
+  //   if (storedToken) {
+  //     config.headers.token = storedToken;
+  //   }
+  //   return config;
+  // });
+
+  /*❗ Why this is bad
+React re-renders → interceptor added AGAIN
+After some actions → multiple interceptors fire
+Headers get duplicated
+Requests become unstable
+Backend may reject → 500  
+  */
+
+useEffect(() => {
+  const interceptor = axios.interceptors.request.use((config) => {
     const storedToken = localStorage.getItem("authToken");
     if (storedToken) {
       config.headers.token = storedToken;
     }
     return config;
   });
+
+  return () => {
+    axios.interceptors.request.eject(interceptor);
+  };
+}, []);
+
 
   /* ---------------- CHECK AUTH (RUNS ON APP LOAD) ---------------- */
   const checkAuth = async () => {

@@ -104,6 +104,7 @@ const App = () => {
 
          <Route path="/signup" element={
           !authUser ? <SignupPage /> : <Navigate to="/" />
+          // <SignupPage />
         } />
 
         <Route
