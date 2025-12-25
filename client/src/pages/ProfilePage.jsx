@@ -215,7 +215,7 @@ const ProfilePage = () => {
 
     reader.onloadend = async () => {
       await updateProfile({
-        profilePic: reader.result,
+        profilePicture: reader.result,
         fullName: name,
         bio
       })
@@ -253,7 +253,7 @@ return (
               active:scale-95 active:shadow-[0_2px_8px_0_rgba(111,78,124,0.13),0_1px_4px_0_rgba(185,124,255,0.11)]
               transition-all duration-150 ease-out cursor-pointer">Save Changes</button>
         </form>
-        <img className='max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10' src={assets.logo_icon} alt='' />
+        <img className='max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10' src={authUser?.profilePicture || assets.avatar_icon} alt='' />
        
       </div>
     </div>

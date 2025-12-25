@@ -275,7 +275,7 @@ export const updateProfile = async (req, res) => {
 
 
   try {
-    const { profilePic, fullName, bio } = req.body;
+    const { profilePicture, fullName, bio } = req.body;
 
     if (!req.user) {
       return res.status(401).json({
@@ -286,7 +286,7 @@ export const updateProfile = async (req, res) => {
 
     let updatedUser;
 
-    if (!profilePic) {
+    if (!profilePicture) {
       updatedUser = await User.findByIdAndUpdate(
         req.user._id,
         { fullName, bio },
@@ -294,7 +294,7 @@ export const updateProfile = async (req, res) => {
       );
     } else {
       console.log("Uploading to cloudinary...");
-      const upload = await cloudinary.uploader.upload(profilePic);
+      const upload = await cloudinary.uploader.upload(profilePicture);
       console.log("Cloudinary OK");
 
       updatedUser = await User.findByIdAndUpdate(
@@ -302,7 +302,7 @@ export const updateProfile = async (req, res) => {
         {
           fullName,
           bio,
-          profilePic: upload.secure_url
+          profilePicture: upload.secure_url
         },
         { new: true }
       );
