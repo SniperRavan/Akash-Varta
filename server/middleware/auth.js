@@ -1,53 +1,32 @@
-// import User from "../lib/models/User";
-// import jwt from "jsonwebtoken";
-
-// //Middleware to authenticate user requests to protect routes
-// export const protectRoute = async (req, res, next) => {
-//     try {
-//         const token = req.headers.token;
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         const user = await User.findById(decoded.userId) .select ("-password");
-
-//         if (!user) {
-//             return res.status(401).json({success: false, message: "Unauthorized"});
-//         req.user = user;
-//         next();
-//         } 
-//         } catch(error) {
-//             console.error("Auth middleware error:",error);
-//             return res.status(500).json({success: false, message: "Server error"});
-//         }
-    
-// }
-
-
-
 import User from "../lib/models/User.js";
 import jwt from "jsonwebtoken";
 
 // Middleware to authenticate user requests to protect routes
 export const protectRoute = async (req, res, next) => {
-    try {
-        const token = req.headers.token;
-        
-        if (!token) {
-            return res.status(401).json({ success: false, message: "No token provided" });
-        }
+  try {
+    let token = req.headers.token;
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId).select("-password"); // without that dash this returns ONLY the password field, not the rest of the user.
-
-        if (!user) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
-        }
-
-        req.user = user;
-        next();
-
-    } catch (error) {
-        console.error("Auth middleware error:", error);
-        return res.status(500).json({ success: false, message: "Invalid token" });
+    if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
     }
+
+    if (!token) {
+      return res.status(401).json({ success: false, message: "No token provided" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "akash-varta-secure-secret-key");
+    const user = await User.findById(decoded.userId).select("-password");
+
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Unauthorized - user not found" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error("Auth middleware error:", error.message);
+    return res.status(401).json({ success: false, message: "Invalid or expired token" });
+  }
 };
 
-export default protectRoute; // Exporting the middleware for use in other files this line added at 01:00 pm 18th December 2025
+export default protectRoute;
