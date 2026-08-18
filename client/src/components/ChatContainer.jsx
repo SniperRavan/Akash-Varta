@@ -5,7 +5,14 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 
 const ChatContainer = () => {
-  const { messages, sendMessage, selectedUser, setSelectedUser } = useContext(ChatContext);
+  const {
+    messages,
+    sendMessage,
+    selectedUser,
+    setSelectedUser,
+    showProfile,
+    setShowProfile,
+  } = useContext(ChatContext);
   const { authUser, onlineUsers } = useContext(AuthContext);
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
@@ -52,9 +59,13 @@ const ChatContainer = () => {
   if (!selectedUser) {
     return (
       <div className="h-full flex-1 flex flex-col items-center justify-center text-center p-6 bg-transparent max-md:hidden">
-        <img src={assets.logo_icon} alt="" className="max-w-16 opacity-90 mb-3" />
-        <p className="text-lg font-semibold text-white">Chat anytime, anywhere</p>
-        <p className="text-xs text-stone-400 mt-1 max-w-xs">
+        <img
+          src={assets.right_sidebar_homepage}
+          alt="Akash Varta"
+          className="w-24 h-24 rounded-2xl object-cover shadow-2xl mb-4 border border-purple-500/30"
+        />
+        <h2 className="text-xl font-bold text-white tracking-tight">Chat anytime, anywhere</h2>
+        <p className="text-xs text-stone-400 mt-1.5 max-w-xs">
           Select a conversation from the left to start messaging in real-time.
         </p>
       </div>
@@ -62,7 +73,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="h-full flex-1 flex flex-col min-w-0 bg-transparent relative overflow-hidden">
+    <div className="h-full flex-1 flex flex-col min-w-0 bg-[#110f22]/30 backdrop-blur-md relative overflow-hidden">
       {/* ---------------- TOP HEADER ---------------- */}
       <div className="h-16 px-5 border-b border-white/10 flex items-center justify-between flex-shrink-0 bg-[#131126]/40 backdrop-blur-md">
         <div className="flex items-center gap-3 min-w-0">
@@ -89,12 +100,17 @@ const ChatContainer = () => {
 
         <div className="flex items-center gap-2 text-stone-400">
           <img
+            onClick={() => setShowProfile((prev) => !prev)}
             src={assets.help_icon}
-            alt="Help"
-            className="max-h-5 cursor-pointer opacity-80 hover:opacity-100 transition-opacity"
+            alt="About Profile"
+            title="Toggle Profile Info"
+            className={`max-h-5 cursor-pointer transition-all hover:scale-110 active:scale-95 ${
+              showProfile ? "opacity-100 drop-shadow-[0_0_8px_#a855f7]" : "opacity-75 hover:opacity-100"
+            }`}
           />
         </div>
       </div>
+
 
 
       {/* ---------------- MESSAGES CONTAINER ---------------- */}

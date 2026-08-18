@@ -8,10 +8,12 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
   const [unseenMessages, setUnseenMessages] = useState({});
   const [loadingMessages, setLoadingMessages] = useState(false);
 
   const { socket, axios, authUser } = useContext(AuthContext);
+
 
   // Fetch all users and unread counts for sidebar
   const getUsers = useCallback(async () => {
@@ -120,6 +122,8 @@ export const ChatProvider = ({ children }) => {
     users,
     selectedUser,
     setSelectedUser,
+    showProfile,
+    setShowProfile,
     unseenMessages,
     loadingMessages,
     getUsers,
@@ -131,4 +135,5 @@ export const ChatProvider = ({ children }) => {
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 };
+
 

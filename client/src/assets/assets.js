@@ -22,6 +22,7 @@ import pic3 from "./pic3.png";
 import pic4 from "./pic4.png";
 import img1 from "./img1.jpg";
 import img2 from "./img2.jpg";
+import right_sidebar_homepage from "./right_sidebar_homepage.jpg";
 
 const assets = {
   avatar_icon,
@@ -37,6 +38,7 @@ const assets = {
   arrow_icon,
   code,
   bgImage,
+  right_sidebar_homepage,
   profile_martin,
   profile_richard,
   profile_alison,
@@ -51,6 +53,7 @@ const assets = {
 };
 
 export default assets;
+
 
 // Default media grid presets
 export const imagesDummyData = [pic1, pic2, pic3, pic4];

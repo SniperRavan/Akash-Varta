@@ -36,14 +36,17 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-full bg-[#151228]/95 border-r border-white/10 flex flex-col overflow-hidden min-w-0 ${
+      className={`h-full bg-[#141128]/50 backdrop-blur-xl border-r border-white/10 flex flex-col overflow-hidden min-w-0 ${
         selectedUser ? "max-md:hidden" : ""
       }`}
     >
       {/* ---------------- HEADER ---------------- */}
       <div className="p-4 pb-2 flex-shrink-0">
         <div className="flex justify-between items-center px-1">
-          <img src={assets.logo} alt="QuickChat" className="max-w-36 h-auto object-contain" />
+          <div className="flex items-center gap-2.5">
+            <img src={assets.logo_icon} alt="Akash Varta" className="w-8 h-8 object-contain" />
+            <h1 className="text-lg font-bold tracking-tight text-white">Akash Varta</h1>
+          </div>
 
           {/* 3-DOT MENU */}
           <div className="relative" ref={menuRef}>
@@ -53,6 +56,7 @@ const Sidebar = () => {
               className="max-h-5 cursor-pointer opacity-80 hover:opacity-100 transition-opacity"
               onClick={() => setMenuOpen((prev) => !prev)}
             />
+
 
 
             {/* DROPDOWN MENU */}

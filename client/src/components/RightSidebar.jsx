@@ -5,9 +5,9 @@ import { ChatContext } from "../context/ChatContext";
 
 const RightSidebar = () => {
   const { logout, onlineUsers } = useContext(AuthContext);
-  const { selectedUser, messages } = useContext(ChatContext);
+  const { selectedUser, messages, showProfile, setShowProfile } = useContext(ChatContext);
 
-  if (!selectedUser) return null;
+  if (!selectedUser || !showProfile) return null;
 
   const isOnline = onlineUsers.includes(selectedUser._id);
   const avatarUrl = getUserAvatar(selectedUser);
@@ -15,10 +15,23 @@ const RightSidebar = () => {
   const mediaGrid = sharedMedia.length > 0 ? sharedMedia : imagesDummyData;
 
   return (
-    <div className="h-full bg-[#151228]/95 border-l border-white/10 flex flex-col justify-between overflow-y-auto p-5 max-lg:hidden min-w-0">
+    <div className="h-full bg-[#141128]/70 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between overflow-y-auto p-5 min-w-0">
       <div>
+        {/* Header with Close */}
+        <div className="flex justify-between items-center pb-2">
+          <span className="text-xs font-semibold text-stone-300">About Contact</span>
+          <button
+            onClick={() => setShowProfile(false)}
+            className="w-6 h-6 rounded-full flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 text-xs transition-colors cursor-pointer"
+            title="Close Profile"
+          >
+            ✕
+          </button>
+        </div>
+
         {/* Profile Card */}
-        <div className="pt-4 flex flex-col items-center text-center">
+        <div className="pt-2 flex flex-col items-center text-center">
+
           <img
             src={avatarUrl}
             alt={selectedUser.fullName}
