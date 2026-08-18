@@ -1,57 +1,79 @@
-import React from 'react'
-import assets, { imagesDummyData } from '../assets/assets'
-import { useContext } from "react";
+import React, { useContext } from "react";
+import assets from "../assets/assets";
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 
+const RightSidebar = ({ selectedUser }) => {
+  const { logout, onlineUsers } = useContext(AuthContext);
+  const { messages } = useContext(ChatContext);
 
-const RightSidebar = ({selectedUser}) => {
-  const { logout } = useContext(AuthContext);
-  return selectedUser && (
-    <div className={`bg-[#8185B2]/10 text-white relative w-full overflow-y-scroll ${
-      selectedUser ? "max-md:hidden":""}`}>
+  if (!selectedUser) return null;
 
-      <div className='pt-16 flex flex-col items-center gap-2 text-xs font-light 
-      mx-auto'>
-        <img src={selectedUser?.profilePicture || assets.avatar_icon} alt=""
-        className='w-20 aspect-[1/1] rounded-full' />
-        <h1 className='px-10 text-xl font-medium mx-auto flex items-center 
-        gap-2'>
-          <p className='w-2 h-2 rounded-full bg-green-500'></p>
-          {selectedUser.fullName}
-        </h1>
-        <p className='px-10 mx-auto'>{selectedUser.bio}</p>
-      </div>
+  const isOnline = onlineUsers.includes(selectedUser._id);
+  const sharedMedia = messages.filter((m) => m.image).map((m) => m.image);
 
-      <hr className='border-[#ffffff50] my-4' />
-      
-      <div className='px-5 text-sm'>
-        <p>Media</p>
-
-      <div className='mt-2 max-h-[500px] overflow-y-scroll grid grid-cols-2 
-      gap-4 opacity-80'>
-        {imagesDummyData.map((url, index) => (
-          <div key={index} onClick={()=> window.open(url)}
-          className='cursor-pointer rounded'>
-            <img src={url} alt="" className='h-full rounded-md' />
-      </div>
-        ))}
-      </div>
-      </div>
-
-        <button className='absolute bottom-5 left-1/2 -translate-x-1/2
-    bg-gradient-to-r from-purple-500 to-violet-600
-    px-20 py-2 rounded-full font-light text-white text-medium
-    shadow-[0_0_20px_rgba(139,92,246,0.6)]
-    hover:shadow-[0_0_35px_rgba(139,92,246,0.9)]
-    active:scale-95 active:shadow-[0_0_12px_rgba(139,92,246,0.5)]
-    transition-all duration-150 ease-out cursor-pointer'
-    onClick={logout}
+  return (
+    <div
+      className={`bg-[#8185B2]/10 text-white relative w-full h-full flex flex-col justify-between overflow-y-auto p-5 ${
+        selectedUser ? "max-md:hidden" : ""
+      }`}
     >
-          LogOut
-        </button>
+      <div>
+        {/* Profile Card */}
+        <div className="pt-6 flex flex-col items-center gap-2 text-xs font-light text-center">
+          <img
+            src={selectedUser?.profilePicture || assets.avatar_icon}
+            alt={selectedUser.fullName}
+            className="w-20 h-20 rounded-full object-cover border-2 border-purple-500/40"
+          />
+          <h1 className="text-xl font-medium flex items-center gap-2">
+            <span
+              className={`w-2.5 h-2.5 rounded-full ${
+                isOnline ? "bg-green-500" : "bg-neutral-500"
+              }`}
+            />
+            {selectedUser.fullName}
+          </h1>
+          <p className="text-stone-300 px-4 text-xs">
+            {selectedUser.bio || "Hi Everyone, I am Using QuickChat"}
+          </p>
+        </div>
 
+        <hr className="border-[#ffffff30] my-4" />
+
+        {/* Media Grid */}
+        <div className="text-sm">
+          <p className="font-medium text-stone-200 mb-2">Media</p>
+          {sharedMedia.length === 0 ? (
+            <p className="text-xs text-stone-400 italic">No media shared yet</p>
+          ) : (
+            <div className="max-h-[300px] overflow-y-auto grid grid-cols-2 gap-2">
+              {sharedMedia.map((url, index) => (
+                <div
+                  key={index}
+                  onClick={() => window.open(url, "_blank")}
+                  className="cursor-pointer rounded-lg overflow-hidden border border-white/10 hover:opacity-80 transition-opacity aspect-square"
+                >
+                  <img src={url} alt="Media" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Logout Button */}
+      <div className="pt-6 pb-2">
+        <button
+          className="w-full bg-gradient-to-r from-purple-500 to-violet-600 py-2.5 rounded-full font-medium text-white text-sm shadow-[0_0_20px_rgba(139,92,246,0.6)] hover:shadow-[0_0_35px_rgba(139,92,246,0.9)] active:scale-95 transition-all duration-150 ease-out cursor-pointer"
+          onClick={logout}
+        >
+          Log Out
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default RightSidebar;
+
