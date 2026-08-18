@@ -1,70 +1,6 @@
-// import React from 'react'
-// import { Navigate, Route, Routes } from 'react-router-dom'
-// import HomePage from './pages/HomePage'
-// import LoginPage from './pages/LoginPage'
-// import ProfilePage from './pages/ProfilePage'
-// import {Toaster} from "react-hot-toast";
-
-// const App = () => {
-//   const {authUser} = React.useContext(AuthContext);
-//   return (
-//     <div className= "bg-[url('./src/assets/bgImage.svg')] bg-contain">
-//       <Toaster />
-//       <Routes>
-//         <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" />} />
-//         <Route path='/login' element={authUser ?  <LoginPage /> : <Navigate to="/" />} />
-//         <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
-//       </Routes>
-//     </div>
-//   )
-// }
-
-// export default App;
-
-
-
-
-// import React from "react";
-// import { Navigate, Route, Routes } from "react-router-dom";
-// import HomePage from "./pages/HomePage";
-// import LoginPage from "./pages/LoginPage";
-// import ProfilePage from "./pages/ProfilePage";
-// import { Toaster } from "react-hot-toast";
-// import { AuthContext } from "./context/AuthContext.jsx";
-
-// const App = () => {
-//   const { authUser } = React.useContext(AuthContext);
-
-//   return (
-//     <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain">
-//       <Toaster />
-//       <Routes>
-//         <Route
-//           path="/"
-//           element={authUser ? <HomePage /> : <Navigate to="/login" />}
-//         />
-//         <Route
-//           path="/login"
-//           element={!authUser ? <LoginPage /> : <Navigate to="/" />}
-//         />
-//         <Route
-//           path="/profile"
-//           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
-//         />
-//       </Routes>
-//     </div>
-//   )
-// }
-
-// export default App;
-
-
-
-
 import React, { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
-
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -74,54 +10,31 @@ import { Toaster } from "react-hot-toast";
 const App = () => {
   const { authUser, authLoading } = useContext(AuthContext);
 
-  // ⛔ WAIT until auth check finishes
   if (authLoading) {
     return (
-      <div className="text-white p-5 text-center">
-        Checking authentication...
+      <div className="min-h-screen bg-[#090814] flex items-center justify-center text-white text-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+          <span>Loading QuickChat...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain">
-      <Toaster />
+    <div className="min-h-screen bg-[#090814] text-white">
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            authUser ? <HomePage /> : <Navigate to="/login" />
-          }
-        />
-
-        <Route
-          path="/login"
-          element={
-            !authUser ? <LoginPage /> : <Navigate to="/" />
-          }
-        />
-
-         <Route path="/signup" element={
-          !authUser ? <SignupPage /> : <Navigate to="/" />
-          // <SignupPage />
-        } />
-
-        <Route
-          path="/profile"
-          element={
-            authUser ? <ProfilePage /> : <Navigate to="/login" />
-          }
-        />
-
-        {/* 404 fallback */}
-        <Route
-          path="*"
-          element={<Navigate to="/" />}
-        />
+        <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
+        <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/" />} />
+        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
 };
 
 export default App;
+

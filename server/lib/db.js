@@ -12,7 +12,7 @@ export const seedDemoData = async () => {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash("password123", salt);
 
-      const [alex, caroline, martin, john] = await User.create([
+      const [alex, caroline, martin, enrique, marco, richard] = await User.create([
         {
           fullName: "Alex Mercer",
           email: "alex@example.com",
@@ -32,8 +32,20 @@ export const seedDemoData = async () => {
           bio: "Frontend Architect & Open Source Contributor.",
         },
         {
-          fullName: "John Johnson",
-          email: "john@example.com",
+          fullName: "Enrique Martinez",
+          email: "enrique@example.com",
+          password: hashedPassword,
+          bio: "Mobile Developer & System Engineer.",
+        },
+        {
+          fullName: "Marco Jones",
+          email: "marco@example.com",
+          password: hashedPassword,
+          bio: "Cloud & Security Specialist.",
+        },
+        {
+          fullName: "Richard Smith",
+          email: "richard@example.com",
           password: hashedPassword,
           bio: "Hi Everyone, I am Using QuickChat",
         },
@@ -66,6 +78,7 @@ export const seedDemoData = async () => {
     console.error("Demo seeding error:", err);
   }
 };
+
 
 // Function to connect to MongoDB Database with resilient fallback
 export const connectDB = async () => {

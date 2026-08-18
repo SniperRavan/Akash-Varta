@@ -52,3 +52,31 @@ const assets = {
 
 export default assets;
 
+// Default media grid presets
+export const imagesDummyData = [pic1, pic2, pic3, pic4];
+
+// Helper to resolve real avatar for all users and demo profiles
+export const getUserAvatar = (user) => {
+  if (user?.profilePicture && user.profilePicture.trim()) {
+    return user.profilePicture;
+  }
+  const name = user?.fullName?.toLowerCase() || "";
+  if (name.includes("alison") || name.includes("caroline")) return assets.profile_alison;
+  if (name.includes("martin") || name.includes("presley")) return assets.profile_martin;
+  if (name.includes("enrique")) return assets.profile_enrique;
+  if (name.includes("marco")) return assets.profile_marco;
+  if (name.includes("richard") || name.includes("alex")) return assets.profile_richard;
+  if (name.includes("john")) return assets.profile_marco;
+
+  const presets = [
+    assets.profile_alison,
+    assets.profile_martin,
+    assets.profile_enrique,
+    assets.profile_marco,
+    assets.profile_richard,
+  ];
+  const charCode = (user?._id || user?.fullName || "a").charCodeAt(0) || 0;
+  return presets[charCode % presets.length];
+};
+
+
