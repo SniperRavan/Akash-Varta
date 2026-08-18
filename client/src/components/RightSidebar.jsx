@@ -12,10 +12,9 @@ const RightSidebar = () => {
   const isOnline = onlineUsers.includes(selectedUser._id);
   const avatarUrl = getUserAvatar(selectedUser);
   const sharedMedia = messages.filter((m) => m.image).map((m) => m.image);
-  const mediaGrid = sharedMedia.length > 0 ? sharedMedia : imagesDummyData;
 
   return (
-    <div className="h-full bg-[#141128]/70 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between overflow-y-auto p-5 min-w-0">
+    <div className="h-full bg-black/30 backdrop-blur-2xl border-l border-white/10 flex flex-col justify-between overflow-y-auto p-5 min-w-0">
       <div>
         {/* Header with Close */}
         <div className="flex justify-between items-center pb-2">
@@ -31,7 +30,6 @@ const RightSidebar = () => {
 
         {/* Profile Card */}
         <div className="pt-2 flex flex-col items-center text-center">
-
           <img
             src={avatarUrl}
             alt={selectedUser.fullName}
@@ -57,19 +55,24 @@ const RightSidebar = () => {
         {/* Media Grid */}
         <div>
           <h3 className="text-xs font-semibold text-stone-200 mb-2">Media</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {mediaGrid.slice(0, 4).map((url, idx) => (
-              <div
-                key={idx}
-                onClick={() => window.open(url, "_blank")}
-                className="aspect-square rounded-xl overflow-hidden border border-white/10 hover:opacity-80 transition-opacity cursor-pointer bg-black/40"
-              >
-                <img src={url} alt="Media" className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
+          {sharedMedia.length === 0 ? (
+            <p className="text-xs text-stone-400 italic py-2">No media shared yet</p>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              {sharedMedia.slice(0, 6).map((url, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => window.open(url, "_blank")}
+                  className="aspect-square rounded-xl overflow-hidden border border-white/10 hover:opacity-80 transition-opacity cursor-pointer bg-black/40"
+                >
+                  <img src={url} alt="Media" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
 
       {/* Logout Button */}
       <div className="pt-4">

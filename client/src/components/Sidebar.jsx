@@ -87,7 +87,7 @@ const Sidebar = () => {
         </div>
 
         {/* ---------------- SEARCH BAR ---------------- */}
-        <div className="bg-[#221d3e] rounded-full flex items-center gap-2.5 px-3.5 py-2 mt-4 border border-white/5">
+        <div className="bg-white/[0.08] backdrop-blur-md rounded-full flex items-center gap-2.5 px-3.5 py-2 mt-4 border border-white/15">
           <img src={assets.search_icon} alt="Search" className="w-3.5 h-3.5 opacity-60" />
           <input
             onChange={(e) => setInput(e.target.value)}
@@ -115,7 +115,7 @@ const Sidebar = () => {
                 onClick={() => setSelectedUser(user)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-2xl cursor-pointer transition-all duration-150 ${
                   isSelected
-                    ? "bg-[#2b2454] shadow-md shadow-purple-900/30"
+                    ? "bg-white/15 backdrop-blur-md shadow-lg shadow-purple-900/30 border border-white/20"
                     : "hover:bg-white/5"
                 }`}
               >
@@ -129,6 +129,7 @@ const Sidebar = () => {
                     <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-[#151228] rounded-full" />
                   )}
                 </div>
+
 
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-xs text-white truncate">{user.fullName}</p>
