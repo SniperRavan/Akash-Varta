@@ -2,20 +2,18 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 1.0.x   | :white_check_mark: |
+
+## Security Measures
+
+- **JWT Authentication**: User endpoints are protected via signed JSON Web Tokens with 7-day expiration.
+- **Password Protection**: Passwords are encrypted with salt rounds using `bcryptjs` before storage in MongoDB.
+- **Password Leak Prevention**: Password hashes are stripped before serialization in all API responses.
+- **Sanitized Media Uploads**: Image payloads are uploaded to Cloudinary CDN with authenticated access tokens.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability within **Akash-Varta**, please do not open a public issue. Instead, report it directly to the repository maintainer via GitHub issues with private details or email `akashdasdhibar1@gmail.com`.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
